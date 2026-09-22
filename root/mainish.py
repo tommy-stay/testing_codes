@@ -17,7 +17,7 @@ def greetings():
 
 def chocolate_croissant():
     print("The cost of this is $5")
-customer_cost += 5
+
 
 def blt_sandwich():
     print("The cost of this is $3.50")
@@ -32,7 +32,7 @@ def chocolate_chip():
 
 def order_food():
     user_answer = input("What would you like to eat? Type '1', '2', '3', or '4': ")
-
+    global customer_cost
     if user_answer == "1":
         customer_cost += 5
         food_cost()
