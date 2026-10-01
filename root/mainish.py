@@ -1,6 +1,22 @@
+import time
+
+state = "In the street"
+#multiple "rooms" have to state what they are
+path = ["the bakery", "ice cream store", "continue walking"]
 choices = ["eat", "leave", "1", "2", "3", "4"]
+user_answers = ["1", "2", "3", "4"]
 
 customer_cost = 0
+
+# only 4 tracking variables
+has_video_tape = False
+
+bakery_locked = False
+
+turned_left = False
+
+turned_right = False
+
 
 def display_menu():
     print("Here is the menu:")
@@ -9,11 +25,14 @@ def display_menu():
     print("3. Pasta for $8.25")
     print("4. Chocolate chip cookies for $2.50")
 
+
 def food_cost():
     print("Calculating total cost...")
 
+
 def greetings():
     print("Welcome to The Bakery!")
+
 
 def chocolate_croissant():
     print("The cost of this is $5")
@@ -21,6 +40,7 @@ def chocolate_croissant():
 
 def blt_sandwich():
     print("The cost of this is $3.50")
+
 
 def pasta():
     print("The cost of this is $8.25")
@@ -31,73 +51,501 @@ def chocolate_chip():
 
 
 def order_food():
-    user_answer = input("What would you like to eat? Type '1', '2', '3', or '4': ")
+    user_answer = input(
+        "What would you like to eat? Type '1', '2', '3', or '4': \n"
+    )
     global customer_cost
     if user_answer == "1":
         customer_cost += 5
         food_cost()
         chocolate_croissant()
-        pay_or_add()
+        pay_or_treat()
     elif user_answer == "2":
         customer_cost += 3.50
         food_cost()
         blt_sandwich()
-        pay_or_add()
-
+        pay_or_treat()
     elif user_answer == "3":
         customer_cost += 8.25
+        time.sleep(2)
+        print("Don't.\n")
+        time.sleep(2)
+        print("The pasta isn't food...\n")
+        time.sleep(1.5)
+        print("It's a bakery, why would there be-\n")
+        time.sleep(1.5)
+        print("Cashier: 'Sorry about that.😊'")
         food_cost()
         pasta()
-        pay_or_add()
-
+        pay_or_treat()
     elif user_answer == "4":
         customer_cost += 2.50
         food_cost()
         chocolate_chip()
-        pay_or_add()
-
+        pay_or_treat()
     else:
         print("That is not a valid menu item.")
 
-def final_orderone():
-    print("You chose the chocolate croissant.")
-    chocolate_croissant()
 
-def final_ordertwo():
-    print("You chose the BLT sandwich.")
-    blt_sandwich()
+def yes_or_no():
+    print("It's a bit of a hassle to make more...\n")
+    customer_answer = input("Do you mind just paying? (yes or no)\n")
+    if customer_answer == "yes":
+        print("Cashier: Thank you so much! Here!\n")
+        leave_bakery()
+    elif customer_answer == "no":
+        time.sleep(2)
+        print("The cashier's smile fades.\n")
+        time.sleep(1.5)
+        print("Cashier: Oh.\n")
+        time.sleep(1)
+        print("Cashier: That's a bit rude, no?")
+        time.sleep(1)
+        death()
 
-def final_orderthree():
-    print("You chose the pasta.")
-    pasta()
+def leave_bakery():
+    global bakery_locked, state
+    bakery_locked =  True
+    print("You take the food from the cashier and hand her the required cash.")
+    print("You exit the bakery satisfied with your new snack.")
+    state = "In the street"
 
-def final_orderfour():
-    print("You chose the chocolate chip.")
-    chocolate_chip()
 
-def pay_or_add():
-    user_pay = input("Would you like to buy something else or pay?")
+def death():
+    print("\nThe lights shut off.")
+    time.sleep(3)
+    print(
+        "\nAs you look around, an ear-deafening screech is heard and"
+        " immense pain fills your body."
+    )
+    time.sleep(1)
+    print("YOU FAILED!\n")
+    time.sleep(1.5)
+    print("THE MONSTER GOT TO YOU.")
+    time.sleep(1)
+    print("\nTRY AGAIN.")
+    exit()
+
+
+def pay_or_treat():
+    user_pay = input(
+        "\nWould you like to buy something else or pay? (buy or treat)\n"
+    )
     if user_pay.lower() == "buy":
-       print("Choose another food (not programmed to make something yet)")
-    elif user_pay.lower() == "pay":
-        print("Alright!")
-        food_cost()
-    print("Your final cost is", customer_cost)
+        print("\nCashier: Sorry, we're about to close.")
+        yes_or_no()
+    elif user_pay.lower() == "treat":
+        print("You smile at the cashier after paying and exit the store with your new treat.")
+        print("You look across from you and see a pastel pink themed ice cream shop.\n")
+        print("Your stomach grumbles and you give in and go inside.")
+        travel()
 
 
+def travel():
+    global state
+    print("Travelling to...")
+    print("The ice cream store!🍦")
+    state = "ice cream store"
 
-greetings()
 
 while True:
-    user_answer = input("\nWhat would you like to do? (eat or leave): ").lower()
+    if state == "In the street":
+        print(f"Current state: {state}")
 
-    if user_answer == "eat":
-        print("You've come to the right place!\n")
-        display_menu()
-        order_food()
-    elif user_answer == "leave":
-        print("Goodbye! Come back soon!")
-        break
-    else:
-        print("Sorry, you are not allowed to do that!")
+        print(
+            "You are currently walking in the street. You stop to look around"
+            " at the stores nearby...\n"
+        )
+        print(
+            "Would you like to enter the bakery (left), ice cream store"
+            " (right), or continue walking (forward)?\n"
+        )
+        path = input("Type (left), (right), or (forward).\n").strip().lower()
 
+        if path == "left":
+            if bakery_locked:
+                print("\nThe bakery doors are shut.")
+                print("You try to push it open but it doesnt bugde.")
+                print("A handwritten note reads: 'PERMANENTLY CLOSED FOR MAINTENANCE'.")
+                print("You can no longer enter the bakery!\n")
+                state = "In the street"
+                continue
+            else:
+                state = "Bakery"
+        elif path == "right":
+            state = "ice cream store"
+        elif path == "forward":
+            state = "continue walking"
+        else:
+            print("Sorry, you are not allowed to do that!")
+            exit()
+
+    if state == "Bakery":
+        greetings()
+        user_answer = input(
+            "\nWhat would you like to do? (eat or leave): "
+        ).lower()
+
+        if user_answer == "eat":
+            print("You've come to the right place!\n")
+            display_menu()
+            order_food()
+        elif user_answer == "leave":
+            time.sleep(3)
+            print("That's not a choice for you...\n")
+            time.sleep(2)
+            print("You have to stay..\n")
+            time.sleep(2)
+            print("There's... something out there...😐\n")
+            time.sleep(3)
+            user_answer = input("\nWhat would you like to do? (eat): ")
+
+            if user_answer == "eat":
+                time.sleep(2)
+                print("\nThat's better...\n")
+                time.sleep(1.5)
+                print("Next time. Don't make this so difficult..\n")
+                time.sleep(2)
+                display_menu()
+                order_food()
+            else:
+                print("Sorry, you are not allowed to do that!😊\n")
+                continue
+
+    elif state == "ice cream store":
+        story = """
+       You enter the ice cream shop to your left and you take notice of the cozy, warm feeling the decorations make.
+
+       As the bell above the door rings, the cashier welcomes you in with a bright smile. 
+       You take notice that the ice cream store is empty except for one lone customer sitting by himself at one of the booths.
+
+       Cashier: 'Hello and welcome, how can I help you?'
+
+       Do you...
+
+       A: Greet the cashier back with a smile and start ordering ice cream.
+       OR
+       B: Smile at the cashier but walk over to the customer sitting by himself.
+       ?
+       """
+        print(story)
+        user_choice = input().lower()
+
+        if user_choice == "b":
+            print("\nYou smile at the cashier and take a seat near the man in the booth.")
+            print("\nThe man stares at you.\n")
+            print("You look back at the man and smile with a small nod.")
+            print("Man: 'This here isn't a regular town, you know?'")
+            print("You: '..Sorry?'")
+            print("Man: 'You should leave before this gets bad.'")
+            print("The cashier calls you back to the front and you hesitate before standing up and walking to the front desk.\n")
+
+        if user_choice == "a" or user_choice == "b":
+            story = """
+           You walk over to the front desk with a kind smile.
+
+           You: 'Hello. Can I order...'
+
+           A: Strawberry ice cream
+           OR
+           B: Vanilla ice cream
+
+           """
+            print(story)
+            user_choice = input().lower()
+
+            if user_choice == "b":
+                story = """
+                You: 'Can I have vanilla ice cream please?'
+
+                The cashier smirks slightly and enters it into POS terminal.
+
+                Cashier: 'Excellent choice, that's our best selling flavor. Let me get that ready for you'
+
+                The cashier walks inside the back to make your ice cream.
+                Leaving you alone with the man in the corner booth of the shop who is now staring at you.
+
+                Do you?
+
+                A: Ignore the stranger and sit by yourself in a chair and wait for your ice cream
+                OR 
+                B: Try to make small talk with the stranger
+
+                """
+                print(story)
+                user_choice = input().lower()
+
+                if user_choice == "b":
+                    print("\nYou approach the strange man.")
+                    print("For a moment, he just stares at you..")
+                    print("\nYou: 'Hello..?")
+                    print("Man: 'This town isn't what it seems like..'\n")
+                    print("You: 'Sorry?'")
+                    trust_choice = input("Man: 'Do you trust me?'\n (Yes or no)")
+
+                    if trust_choice == "yes":
+                        print("\nYou: 'Yeah.'")
+                        print("Man: 'Good choice.'")
+                        print(
+                            "The man grabs your arm and guides you out the side door back toward the bakery kitchen...\n")
+
+                    if trust_choice == "no":
+                        print("\nYou: 'I don't even know you! Of course not!'")
+                        print("Man: 'Huh. Suit yourself.. I tried to help you..")
+                        time.sleep(2)
+                        death()
+
+                    truth_loop = True
+                    while truth_loop:
+                        print(
+                            "You and the strange man slip through the alley and into the storage door behind the bakery.")
+                        print("There's two choices you can make.")
+                        print("A: Sneak past the cashier into the storage room to search for clues.")
+                        print("B: Walk into the front room and try talking to the bakery cashier.")
+
+                        choice = input("\nDo you choose A or B? ").strip().lower()
+
+                        if choice == "a":
+                            print(
+                                "\nYou walk quietly into the dark storage room while the strange man keeps watch.")
+                            print(
+                                "You find no food for making any of the pasteries in a bakery.\n")
+                            print("Strange...")
+                            print("All you find is wires, cashier aprons, and robot parts.")
+
+                            if not has_video_tape:
+                                print("\nSomething catches your eye from underneath a dirty apron..")
+                                print("You crawl closer and see it's an old VHS tape.")
+                                print("LABEL: 'The Truth'")
+                                print("You place the video tape in your back pocket so you can show it to the man.")
+                                has_video_tape = True
+                            else:
+                                print(
+                                    "\nYou search the shelves again, but you have ALREADY collected 'The Truth of Amaryllis Town' video tape!")
+                                print("There are no other clues left to find here.")
+
+                            print("\nStrange Man: 'We got what we came for! Look out! The cashier is coming!'")
+                            print("Do you:")
+                            print("A: Leave immediately with the strange man out the back door.")
+                            print("B: Stay and confront the cashier.")
+
+                            escape_choice = input("\nType A or B: ").strip().lower()
+                            if escape_choice == "a":
+                                print(
+                                    "\nYou and the strange man slip out into the alley just as heavy footsteps echo inside.")
+                                print("The strange man locks the back doors tight behind you.")
+                                bakery_locked = True
+                                print("\nStrange Man: 'We can never go back in there. It knows we were snooping.'")
+                                if has_video_tape:
+                                    print(
+                                        "Strange Man: 'Let's take this tape to the safe house and see what Amaryllis Town really is!'")
+                                    print(
+                                        "You play the tape and discover Amaryllis Town is an experiment controlled by humanoid robots!")
+                                    print("YOU UNCOVERED THE TRUTH OF AMARYLLIS TOWN AND ESCAPED!")
+                                    exit()
+                                else:
+                                    state = "In the street"
+                                    truth_loop = False
+                            else:
+                                death()
+
+                        elif choice == "b":
+                            print("\nYou walk up to the bakery cashier.")
+                            print("Cashier: 'Welcome to the Bakery! What would you like to do?'")
+                            print("You try asking her what is wrong with the town, but she responds word-for-word:")
+                            print("Cashier: 'Welcome to the Bakery! What would you like to do?'")
+                            print(
+                                "\nSuddenly, her voice changes into high-pitched static. Sparks fly from her neck!")
+                            print("C-C-COULD... I... G-G-GET... YOU... A... C-CROISSANT...?")
+                            print("Her eyes flicker red as gear-grinding noises roar from inside her chest!")
+
+                            print("\nStrange Man: 'SHE IS MALFUNCTIONING! WE HAVE TO RUN NOW!'")
+                            print("Do you:")
+                            print("A: Leave immediately with the strange man.")
+                            print("B: Stay and try to help her.")
+
+                            malfunction_choice = input("\nQuickly! Choose A or B: ").strip().lower()
+                            if malfunction_choice == "a":
+                                print("\nYou run out the exit door into the alley with the strange man.")
+                                print("The heavy door slams behind you, locking permanently.")
+                                bakery_locked = True
+                                print("\nStrange Man: 'That bakery is locked off to us forever now.'")
+                                state = "In the street"
+                                truth_loop = False
+                            else:
+                                print(
+                                    "\nYou take a step forward to help, but her arm shoots out with unnatural force...")
+                                death()
+
+                else:
+                    print("You sit waiting by yourself...")
+                    death()
+
+            elif user_choice == "a":
+                story = """
+                You: 'Can I have strawberry ice cream please?'
+
+                The cashier looks at you and her smile drops ever so slightly but bounces back immediately.
+
+                Cashier: 'Sorry, unfortunately we ran out of strawberry ice cream, would you like to order vanilla-'
+
+                A deep voice interuppts the cashier.
+                
+                It's the man who was sitting by himself in the booth.
+
+                Man: 'Don't listen to her. You shouldn't be here.'
+
+                Man: 'You need to get out. Fast.'
+
+                What do you do?
+
+                A: Ignore the strange man and order the vanilla ice cream.
+                OR 
+                B: Listen to the man and escape the ice cream store.
+                """
+                print(story)
+                user_choice = input().lower()
+
+                if user_choice == "b":
+                    print("\nYou listen to the man and hurry out the door with him.")
+                    print("Man: 'Follow me into the back of the bakery... we need to find proof.'")
+
+                    truth_loop = True
+                    while truth_loop:
+                        print("\nYou slip through the alley into the storage area behind the bakery.")
+                        print("A: Sneak behind the cashier into the storage room to look for clues.")
+                        print("B: Walk up and try talking to the cashier.")
+
+                        choice = input("\nChoose A or B: ").strip().lower()
+
+                        if choice == "a":
+                            print("\nYou sneak into the back storage room.")
+                            print(
+                                "Inside, you discover robot parts, dirty aprons, and gears scattered across tables!")
+                            print("No materials needed to make food served at this bakery...")
+                            print("Strange...")
+
+                            if not has_video_tape:
+                                print("\nYou find a videotape labeled: 'The Truth of Amaryllis Town'")
+                                print("You slip the videotape into your bag.")
+                                has_video_tape = True
+                            else:
+                                print(
+                                    "\nYou search again, but you ALREADY picked up 'The Truth of Amaryllis Town' video tape!")
+
+                            print("\nDo you:")
+                            print("A: Leave with the strange man.")
+                            print("B: Stay here.")
+
+                            esc = input("\nChoose A or B: ").strip().lower()
+                            if esc == "a":
+                                bakery_locked = True
+                                print(
+                                    "\nYou escape out the back alley. The doors bang shut and padlock behind you.")
+                                print("You can no longer enter the bakery ever again!")
+                                if has_video_tape:
+                                    print(
+                                        "You play the video tape with the strange man and discover Amaryllis Town is built on robotic simulation.")
+                                    print("YOU UNCOVERED THE TRUTH AND ESCAPED!")
+                                    exit()
+                                else:
+                                    state = "In the street"
+                                    truth_loop = False
+                            else:
+                                death()
+
+                        elif choice == "b":
+                            print("\nYou try talking to the cashier.")
+                            print("Cashier: 'Hello and welcome! What would you like to order today?'")
+                            print("You try to ask questions, but she repeats with robotic precision:")
+                            print("Cashier: 'Hello and welcome! What would you like to order today?'")
+                            print(
+                                "\nSparks burst from her joints! Her jaw unhinges as she begins severely malfunctioning!")
+                            print("\nStrange Man: 'RUN! SHE IS GOING TO BLOW!'")
+                            print("A: Leave with the strange man.")
+                            print("B: Stay.")
+
+                            esc = input("\nChoose A or B: ").strip().lower()
+                            if esc == "a":
+                                bakery_locked = True
+                                print("\nYou dash into the street as the bakery locks up behind you permanently.")
+                                state = "In the street"
+                                truth_loop = False
+                            else:
+                                death()
+                else:
+                    death()
+
+    elif state == "continue walking":
+        story = """
+    You decide to ignore the temptation of getting a sweet treat and continue walking down the street.
+
+    Time passes by and you reach a familiar road, it's the way home. 
+    Yet, you pause.
+
+    It's still bright outside, you don't have to head home yet.
+
+    Do you...
+
+    A: Take one last lap before heading inside to burn off some energy.
+    OR
+    B: Give in and go inside to get extra rest? 
+    """
+        print(story)
+        user_choice = input().lower()
+
+        if user_choice == "a":
+            story = """
+            You: 'What's the harm in getting a little more steps in tonight?'
+
+            You turn to your left and head down the street.
+
+            As time goes on, you come across a three-way split in the road: turn left, turn right, or go forward."""
+
+            print(story)
+            direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
+
+        if direction_choice == "left":
+                print(f"\nYou turn to go {direction_choice}...")
+        time.sleep(0.5)
+        print("\nAs you keep walking, you pass by tall, clean houses. But no one playing outside or sitting on the porch.")
+        time.sleep(2)
+        print("\nThe lights aren't on in any of the houses either...\n")
+        time.sleep(2)
+        print("You shake your head and just keep going. You don't have the right to question anyone's light choices.\n")
+        time.sleep(3)
+        print("You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
+        time.sleep(2)
+        print("You're back at the three-way split!")
+        time.sleep(1)
+        print("That's odd... but whatever.")
+        turned_left = True
+        direction_choice = input("Which direction do you take? (left, right, forward): ")
+
+        if direction_choice == "right":
+                    turned_left = True
+                    print("this should be your first right after your left turn.")
+                    exit()
+
+        #this doesnt work
+        if direction_choice == "forward":
+                turned_left = True
+                print("this should be after you turn left")
+                exit()
+
+        # this doesn't work
+        elif direction_choice =="right":
+            print("This should be your first right turn.")
+            exit()
+
+
+
+        if user_choice == "b":
+            print("\nYou walk inside your apartment.\n")
+        time.sleep(2)
+        print("The door was left unlocked, that's odd.")
+        time.sleep(2)
+        print("\nYou could have swore you locked it when you left.\n")
+        print("You shrug it off and walk inside. As soon as you do the door locks behind you.\n")
+        time.sleep(1)
+        death()
