@@ -1,14 +1,14 @@
 import time
 
 state = "In the street"
-#multiple "rooms" have to state what they are
+# Multiple "rooms" have to state what they are.
 path = ["the bakery", "ice cream store", "continue walking"]
 choices = ["eat", "leave", "1", "2", "3", "4"]
 user_answers = ["1", "2", "3", "4"]
 
 customer_cost = 0
 
-# only 4 tracking variables
+# 6 tracking variables.
 has_video_tape = False
 
 bakery_locked = False
@@ -16,6 +16,10 @@ bakery_locked = False
 turned_left = False
 
 turned_right = False
+
+truth_loop = False
+
+trying_to_annoy = False
 
 
 def display_menu():
@@ -53,7 +57,7 @@ def chocolate_chip():
 def order_food():
     user_answer = input(
         "What would you like to eat? Type '1', '2', '3', or '4': \n"
-    )
+    ).strip()
     global customer_cost
     if user_answer == "1":
         customer_cost += 5
@@ -89,7 +93,7 @@ def order_food():
 
 def yes_or_no():
     print("It's a bit of a hassle to make more...\n")
-    customer_answer = input("Do you mind just paying? (yes or no)\n")
+    customer_answer = input("Do you mind just paying? (yes or no)\n").strip().lower()
     if customer_answer == "yes":
         print("Cashier: Thank you so much! Here!\n")
         leave_bakery()
@@ -103,9 +107,10 @@ def yes_or_no():
         time.sleep(1)
         death()
 
+
 def leave_bakery():
     global bakery_locked, state
-    bakery_locked =  True
+    bakery_locked = True
     print("You take the food from the cashier and hand her the required cash.")
     print("You exit the bakery satisfied with your new snack.")
     state = "In the street"
@@ -126,15 +131,25 @@ def death():
     print("\nTRY AGAIN.")
     exit()
 
+def death_in_street():
+    print("\nYou just stand there.\n")
+    time.sleep(2)
+    print("... Yep.\n")
+    time.sleep(2)
+    print("Now, you just stand there. In the street. Not doing...\n")
+    time.sleep(3)
+    print("Anything.")
+    exit()
+
 
 def pay_or_treat():
     user_pay = input(
         "\nWould you like to buy something else or pay? (buy or treat)\n"
-    )
-    if user_pay.lower() == "buy":
+    ).strip().lower()
+    if user_pay == "buy":
         print("\nCashier: Sorry, we're about to close.")
         yes_or_no()
-    elif user_pay.lower() == "treat":
+    elif user_pay == "treat":
         print("You smile at the cashier after paying and exit the store with your new treat.")
         print("You look across from you and see a pastel pink themed ice cream shop.\n")
         print("Your stomach grumbles and you give in and go inside.")
@@ -184,7 +199,7 @@ while True:
         greetings()
         user_answer = input(
             "\nWhat would you like to do? (eat or leave): "
-        ).lower()
+        ).strip().lower()
 
         if user_answer == "eat":
             print("You've come to the right place!\n")
@@ -198,7 +213,7 @@ while True:
             time.sleep(2)
             print("There's... something out there...😐\n")
             time.sleep(3)
-            user_answer = input("\nWhat would you like to do? (eat): ")
+            user_answer = input("\nWhat would you like to do? (eat): ").strip().lower()
 
             if user_answer == "eat":
                 time.sleep(2)
@@ -229,7 +244,7 @@ while True:
        ?
        """
         print(story)
-        user_choice = input().lower()
+        user_choice = input().strip().lower()
 
         if user_choice == "b":
             print("\nYou smile at the cashier and take a seat near the man in the booth.")
@@ -238,9 +253,10 @@ while True:
             print("Man: 'This here isn't a regular town, you know?'")
             print("You: '..Sorry?'")
             print("Man: 'You should leave before this gets bad.'")
-            print("The cashier calls you back to the front and you hesitate before standing up and walking to the front desk.\n")
+            print(
+                "The cashier calls you back to the front and you hesitate before standing up and walking to the front desk.\n")
 
-        if user_choice == "a" or user_choice == "b":
+        if user_choice in ["a", "b"]:
             story = """
            You walk over to the front desk with a kind smile.
 
@@ -252,7 +268,7 @@ while True:
 
            """
             print(story)
-            user_choice = input().lower()
+            user_choice = input().strip().lower()
 
             if user_choice == "b":
                 story = """
@@ -273,7 +289,7 @@ while True:
 
                 """
                 print(story)
-                user_choice = input().lower()
+                user_choice = input().strip().lower()
 
                 if user_choice == "b":
                     print("\nYou approach the strange man.")
@@ -281,15 +297,14 @@ while True:
                     print("\nYou: 'Hello..?")
                     print("Man: 'This town isn't what it seems like..'\n")
                     print("You: 'Sorry?'")
-                    trust_choice = input("Man: 'Do you trust me?'\n (Yes or no)")
+                    trust_choice = input("Man: 'Do you trust me?'\n (Yes or no)\n").strip().lower()
 
                     if trust_choice == "yes":
                         print("\nYou: 'Yeah.'")
                         print("Man: 'Good choice.'")
                         print(
                             "The man grabs your arm and guides you out the side door back toward the bakery kitchen...\n")
-
-                    if trust_choice == "no":
+                    elif trust_choice == "no":
                         print("\nYou: 'I don't even know you! Of course not!'")
                         print("Man: 'Huh. Suit yourself.. I tried to help you..")
                         time.sleep(2)
@@ -390,7 +405,7 @@ while True:
                 Cashier: 'Sorry, unfortunately we ran out of strawberry ice cream, would you like to order vanilla-'
 
                 A deep voice interuppts the cashier.
-                
+
                 It's the man who was sitting by himself in the booth.
 
                 Man: 'Don't listen to her. You shouldn't be here.'
@@ -404,7 +419,7 @@ while True:
                 B: Listen to the man and escape the ice cream store.
                 """
                 print(story)
-                user_choice = input().lower()
+                user_choice = input().strip().lower()
 
                 if user_choice == "b":
                     print("\nYou listen to the man and hurry out the door with him.")
@@ -492,7 +507,7 @@ while True:
     B: Give in and go inside to get extra rest? 
     """
         print(story)
-        user_choice = input().lower()
+        user_choice = input().strip().lower()
 
         if user_choice == "a":
             story = """
@@ -504,48 +519,76 @@ while True:
 
             print(story)
             direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
+            if trying_to_annoy == True:
+                print("Don't try it again..")
+                time.sleep(2)
+                print("I'm seriously warning you.")
+                time.sleep(4)
+                print("Choose wisely...")
+                state = "continue walking"
+            # I want it to say this and then if the user tries to leave blank or type something random, it displays the death in the street variable.5
 
-        if direction_choice == "left":
+            if direction_choice == "left":
                 print(f"\nYou turn to go {direction_choice}...")
-        time.sleep(0.5)
-        print("\nAs you keep walking, you pass by tall, clean houses. But no one playing outside or sitting on the porch.")
-        time.sleep(2)
-        print("\nThe lights aren't on in any of the houses either...\n")
-        time.sleep(2)
-        print("You shake your head and just keep going. You don't have the right to question anyone's light choices.\n")
-        time.sleep(3)
-        print("You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
-        time.sleep(2)
-        print("You're back at the three-way split!")
-        time.sleep(1)
-        print("That's odd... but whatever.")
-        turned_left = True
-        direction_choice = input("Which direction do you take? (left, right, forward): ")
+                time.sleep(0.5)
+                print(
+                    "\nAs you keep walking, you pass by tall, clean houses. But no one playing outside or sitting on the porch.")
+                time.sleep(2)
+                print("\nThe lights aren't on in any of the houses either...\n")
+                time.sleep(2)
+                print(
+                    "You shake your head and just keep going. You don't have the right to question anyone's light choices.\n")
+                time.sleep(3)
+                print(
+                    "You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
+                time.sleep(2)
+                print("You're back at the three-way split!")
+                time.sleep(1)
+                print("That's odd... but whatever.")
+                turned_left = True
 
-        if direction_choice == "right":
-                    turned_left = True
-                    print("this should be your first right after your left turn.")
+                direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
+
+                # This should display after you go left and choose to go right.
+                if direction_choice == "right":
+                    turned_right = True
+                    print("This should be your first right after your left turn.")
                     exit()
 
-        #this doesnt work
-        if direction_choice == "forward":
-                turned_left = True
-                print("this should be after you turn left")
+                # This should display after you go left and choose to go forward.
+                elif direction_choice == "forward":
+                    print("This should be after you turn left.")
+                    exit()
+                else:
+                    death_in_street()
+
+            # This should display the first time you type right after choosing 'a'.
+            elif direction_choice == "right":
+                print(f"\nYou turn to go {direction_choice}...")
+                print("")
                 exit()
+            elif direction_choice == "forward":
+                print(f"You choose to go {direction_choice}...")
+                print("Yep. Yep.")
+                exit()
+            else:
+                print("\nNot an option.\n")
+                time.sleep(5)
+                print("You're just going to stand there?\n")
+                time.sleep(2)
+                print("Are you serious?")
+                time.sleep(3)
+                print("\nHow useless..")
+                time.sleep(3)
+                trying_to_annoy = True
+                state = "continue walking"
 
-        # this doesn't work
-        elif direction_choice =="right":
-            print("This should be your first right turn.")
-            exit()
-
-
-
-        if user_choice == "b":
+        elif user_choice == "b":
             print("\nYou walk inside your apartment.\n")
-        time.sleep(2)
-        print("The door was left unlocked, that's odd.")
-        time.sleep(2)
-        print("\nYou could have swore you locked it when you left.\n")
-        print("You shrug it off and walk inside. As soon as you do the door locks behind you.\n")
-        time.sleep(1)
-        death()
+            time.sleep(2)
+            print("The door was left unlocked, that's odd.")
+            time.sleep(2)
+            print("\nYou could have swore you locked it when you left.\n")
+            print("You shrug it off and walk inside. As soon as you do the door locks behind you.\n")
+            time.sleep(1)
+            death()
