@@ -1,14 +1,15 @@
 import time
 
 state = "In the street"
-# Multiple "rooms" have to state what they are.
-path = ["the bakery", "ice cream store", "continue walking"]
+
+# states: go left, go right, go straight, alley, safehouse, in the street, bakery, ice cream store, continue walking, death
+path = ["the bakery", "ice cream store", "continue walking", "go left", "go right", "go straight"]
 choices = ["eat", "leave", "1", "2", "3", "4"]
 user_answers = ["1", "2", "3", "4"]
 
 customer_cost = 0
 
-# 6 tracking variables.
+# Tracking variables.
 has_video_tape = False
 
 bakery_locked = False
@@ -354,10 +355,8 @@ while True:
                                 if has_video_tape:
                                     print(
                                         "Strange Man: 'Let's take this tape to the safe house and see what Amaryllis Town really is!'")
-                                    print(
-                                        "You play the tape and discover Amaryllis Town is an experiment controlled by humanoid robots!")
-                                    print("YOU UNCOVERED THE TRUTH OF AMARYLLIS TOWN AND ESCAPED!")
-                                    exit()
+                                    state = "go straight"
+                                    truth_loop = False
                                 else:
                                     state = "In the street"
                                     truth_loop = False
@@ -459,10 +458,8 @@ while True:
                                     "\nYou escape out the back alley. The doors bang shut and padlock behind you.")
                                 print("You can no longer enter the bakery ever again!")
                                 if has_video_tape:
-                                    print(
-                                        "You play the video tape with the strange man and discover Amaryllis Town is built on robotic simulation.")
-                                    print("YOU UNCOVERED THE TRUTH AND ESCAPED!")
-                                    exit()
+                                    state = "go straight"
+                                    truth_loop = False
                                 else:
                                     state = "In the street"
                                     truth_loop = False
@@ -518,70 +515,36 @@ while True:
             As time goes on, you come across a three-way split in the road: turn left, turn right, or go forward."""
 
             print(story)
-            direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
-            if trying_to_annoy == True:
+
+            if trying_to_annoy:
                 print("Don't try it again..")
                 time.sleep(2)
                 print("I'm seriously warning you.")
                 time.sleep(4)
-                print("Choose wisely...")
-                state = "continue walking"
-            # I want it to say this and then if the user tries to leave blank or type something random, it displays the death in the street variable.5
+                print("Choose wisely...\n")
+
+            direction_choice = input("Which direction do you take? (left, right, forward): \n").strip().lower()
 
             if direction_choice == "left":
-                print(f"\nYou turn to go {direction_choice}...")
-                time.sleep(0.5)
-                print(
-                    "\nAs you keep walking, you pass by tall, clean houses. But no one playing outside or sitting on the porch.")
-                time.sleep(2)
-                print("\nThe lights aren't on in any of the houses either...\n")
-                time.sleep(2)
-                print(
-                    "You shake your head and just keep going. You don't have the right to question anyone's light choices.\n")
-                time.sleep(3)
-                print(
-                    "You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
-                time.sleep(2)
-                print("You're back at the three-way split!")
-                time.sleep(1)
-                print("That's odd... but whatever.")
-                turned_left = True
-
-                direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
-
-                # This should display after you go left and choose to go right.
-                if direction_choice == "right":
-                    turned_right = True
-                    print("This should be your first right after your left turn.")
-                    exit()
-
-                # This should display after you go left and choose to go forward.
-                elif direction_choice == "forward":
-                    print("This should be after you turn left.")
-                    exit()
-                else:
-                    death_in_street()
-
-            # This should display the first time you type right after choosing 'a'.
+                state = "go left"
             elif direction_choice == "right":
-                print(f"\nYou turn to go {direction_choice}...")
-                print("")
-                exit()
+                state = "go right"
             elif direction_choice == "forward":
-                print(f"You choose to go {direction_choice}...")
-                print("Yep. Yep.")
-                exit()
+                state = "go straight"
             else:
-                print("\nNot an option.\n")
-                time.sleep(5)
-                print("You're just going to stand there?\n")
-                time.sleep(2)
-                print("Are you serious?")
-                time.sleep(3)
-                print("\nHow useless..")
-                time.sleep(3)
-                trying_to_annoy = True
-                state = "continue walking"
+                if trying_to_annoy:
+                    death_in_street()
+                else:
+                    print("\nNot an option.\n")
+                    time.sleep(5)
+                    print("You're just going to stand there?\n")
+                    time.sleep(2)
+                    print("Are you serious?")
+                    time.sleep(3)
+                    print("\nHow useless..")
+                    time.sleep(3)
+                    trying_to_annoy = True
+                    state = "continue walking"
 
         elif user_choice == "b":
             print("\nYou walk inside your apartment.\n")
@@ -592,3 +555,93 @@ while True:
             print("You shrug it off and walk inside. As soon as you do the door locks behind you.\n")
             time.sleep(1)
             death()
+
+    elif state == "go left":
+        print("\nYou turn to go left...")
+        time.sleep(0.5)
+        print(
+            "\nAs you keep walking, you pass by tall, clean houses. But no one playing outside or sitting on the porch.")
+        time.sleep(2)
+        print("\nThe lights aren't on in any of the houses either...\n")
+        time.sleep(2)
+        print(
+            "You shake your head and just keep going. You don't have the right to question anyone's light choices.\n")
+        time.sleep(3)
+        print(
+            "You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
+        time.sleep(2)
+        print("You're back at the three-way split!")
+        time.sleep(1)
+        print("That's odd... but whatever.")
+        turned_left = True
+
+        direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
+
+# no matter what user chooses they end up back at the split
+        if direction_choice == "right":
+            turned_right = True
+            print("This should be your first right after your left turn.")
+            state = "go right"
+        elif direction_choice == "forward":
+            print("This should be after you turn left.")
+            state = "go straight"
+        else:
+            death_in_street()
+
+    elif state == "go right":
+        print("\nYou turn to go right...")
+        time.sleep(2)
+        print("\nYou walk through the quieter side of the neighborhood. But you notice something strange.\n")
+        time.sleep(2)
+        print("This neighborhood is usually quiet but now it's a bit too quiet..\n")
+        print("You pass the down the somewhat familiar street and spot the abandoned neighborhood park that no one ever used...")
+        time.sleep(2)
+        print("For whatever reason.\n")
+        print("You look around and almost walk into the dark, tall lampost.")
+        time.sleep(2)
+        print("You step back a little, feeling a bit embarrassed until you notice something on the lampost.\n")
+        time.sleep(2)
+        print("You spot '1984' scratched into a lamppost on the corner.\n")
+        print("You take note of it but shrug it off, must have been some kid vandalizing the park for fun.\n")
+        time.sleep(3)
+        print("You've been walking for a couple minutes and something feels odd. So you stop and look around.\n")
+        time.sleep(2)
+        print("You're back at the three-way split!")
+        time.sleep(1)
+        print("That's odd... but whatever.\n")
+        state = "continue walking"
+
+    elif state == "go straight":
+        print("\nYou walk straight ahead and reach an abandoned safe house with a digital keypad on the door.")
+
+        while True:
+            code = input("\nEnter the 4-digit passcode to unlock the door (or type 'back' to return to the street): \n").strip()
+
+            if code == "1984":
+                print("\n*CLICK* The heavy door unlocks! You step inside safely.")
+                state = "safe house"
+                break
+            elif code.lower() == "back":
+                state = "In the street"
+                break
+            else:
+                print("Wrong passcode. Please try again.\n")
+
+    elif state == "alley":
+        print("\nYou are standing in the dark back alley behind the bakery.")
+        choice = input("Where do you want to go? (street): ").strip().lower()
+        state = "In the street"
+
+    elif state == "safe house":
+        print("\nYou enter the safe house away from the robot.")
+        if has_video_tape:
+            print("\nYou figured out the truth!!")
+            print("You play the video tape with the strange man and discover Amaryllis Town isn't a regular town..\n")
+            time.sleep(2)
+            print("It's actually run by robots!\n")
+            print("Congratulations! You won!")
+        else:
+            print("You escaped safely into the bunker, but you didn't manage to bring the evidence videotape...")
+            print("\nYou survived but you still don't know the truth about the town...\n")
+            print("Try again if you want to figure out what it is. Don't get caught though!")
+        exit()
