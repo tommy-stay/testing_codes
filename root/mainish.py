@@ -22,6 +22,11 @@ truth_loop = False
 
 trying_to_annoy = False
 
+has_bakery_key = False
+
+bakery_key_code = False
+
+special_easter_egg = False
 
 def display_menu():
     print("Here is the menu:")
@@ -96,6 +101,10 @@ def yes_or_no():
     print("It's a bit of a hassle to make more...\n")
     customer_answer = input("Do you mind just paying? (yes or no)\n").strip().lower()
     if customer_answer == "yes":
+        if special_easter_egg == True:
+            print("\nThe cashier hands your stuff and her eyes land on the Forsyth resting on your shoulder.\n")
+            print("Cashier: What a nice friend you got there.\n")
+
         print("Cashier: Thank you so much! Here!\n")
         leave_bakery()
     elif customer_answer == "no":
@@ -131,6 +140,7 @@ def death():
     time.sleep(1)
     print("\nTRY AGAIN.")
     exit()
+
 
 def death_in_street():
     print("\nYou just stand there.\n")
@@ -304,7 +314,7 @@ while True:
                         print("\nYou: 'Yeah.'")
                         print("Man: 'Good choice.'")
                         print(
-                            "The man grabs your arm and guides you out the side door back toward the bakery kitchen...\n")
+                            "The man grabs you by your arm and guides you out the side door back toward the bakery kitchen...\n")
                     elif trust_choice == "no":
                         print("\nYou: 'I don't even know you! Of course not!'")
                         print("Man: 'Huh. Suit yourself.. I tried to help you..")
@@ -578,12 +588,16 @@ while True:
         direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
 
 # no matter what user chooses they end up back at the split
+# if you go right, you'll get a different code that will give you a secret ending
+# if you go forward, you'll find an easter egg of something
         if direction_choice == "right":
             turned_right = True
-            print("This should be your first right after your left turn.")
+            print("ill make a story that either leads you to trap or gives you evidence but you'll end back at the three way split.")
             state = "go right"
         elif direction_choice == "forward":
-            print("This should be after you turn left.")
+            print(
+                "specific pre-story with an easter egg will happen"
+                " but you'll end up back at the three way split.")
             state = "go straight"
         else:
             death_in_street()
@@ -617,10 +631,49 @@ while True:
         while True:
             code = input("\nEnter the 4-digit passcode to unlock the door (or type 'back' to return to the street): \n").strip()
 
+
             if code == "1984":
-                print("\n*CLICK* The heavy door unlocks! You step inside safely.")
+                print("\n*CLICK* The heavy door unlocks! You step inside.")
                 state = "safe house"
                 break
+            if code == "4460":
+                if bakery_key_code == True:
+                    print("You enter 4460 in the digital keypad.\n")
+                    time.sleep(2)
+                    print("*CLICK* A camera comes out of the top of the door and scans you down.")
+                    print("\nYou look directly at it and wait as the cyan light scans over you.")
+                    time.sleep(3)
+                    print("\nCamera: 'OBJECT NOT IDENTIFIED! INTRUDER DETECTED!'")
+                    time.sleep(1)
+                    print("\nThe camera's light changes to a vibrant red.\n")
+                    time.sleep(1)
+                    print("The door activates a loud ear-piercing siren and you quickly cover your ears.\n")
+                    time.sleep(2)
+                    print("You step back out of the camera's light and the camera light changes back to the cyan.")
+                    print("The sound dies down abruptly and the camera shrinks back into the wall.\n")
+                    time.sleep(1)
+                    print("You run away from the digital keypad and back into the street, not bothering to try again right now.\n")
+                    state = "go straight"
+
+                if bakery_key_code == False:
+                    print("\n*WHIR*")
+                    time.sleep(2)
+                    print("The door makes a small whirring sound, then a small door underneath the door handle opens.")
+                    time.sleep(1)
+                    print("A small compartment opens and you get a rusty bronze key.")
+                    print("You don't know what it unlocks but you pocket it anyway and stand up.")
+                    has_bakery_key = True
+                    bakery_code = True
+                    state = "continue walking"
+            if code == "2723":
+                print("the door opens a little bit and a small toy gets pushed out.\n")
+                print("when you pick it up, you realize it's a small Mr. Forsyth in his iconic green sweater with gold sword.\n")
+                print("Door: 'Special item unlocked. Enjoy, he's your new companion now.\n")
+                time.sleep(2)
+                print("You smile and place the little Forsyth on your shoulder.\n")
+                print("Now it's not so lonely in this odd town.\n")
+                special_easter_egg = True
+
             elif code.lower() == "back":
                 state = "In the street"
                 break
