@@ -147,7 +147,7 @@ def death_in_street():
     time.sleep(2)
     print("... Yep.\n")
     time.sleep(2)
-    print("Now, you just stand there. In the street. Not doing...\n")
+    print("Now, you just stand there. Not doing...\n")
     time.sleep(3)
     print("Anything.")
     exit()
@@ -204,7 +204,7 @@ while True:
             state = "continue walking"
         else:
             print("Sorry, you are not allowed to do that!")
-            exit()
+            state = "In the street"
 
     if state == "Bakery":
         greetings()
@@ -313,56 +313,65 @@ while True:
                     if trust_choice == "yes":
                         print("\nYou: 'Yeah.'")
                         print("Man: 'Good choice.'")
-                        print(
-                            "The man grabs you by your arm and guides you out the side door back toward the bakery kitchen...\n")
+                        print("The man grabs you by your arm and guides you out the side door back toward the bakery kitchen...\n")
                     elif trust_choice == "no":
                         print("\nYou: 'I don't even know you! Of course not!'")
                         print("Man: 'Huh. Suit yourself.. I tried to help you..")
                         time.sleep(2)
                         death()
+                        truth_loop = True
+                    else:
+                        print("\nThe man stares at you slowly, confusion covering his previous expression.")
+                        time.sleep(2)
+                        print("\nMan: 'That's not what I asked. I said yes or no.'")
+                        time.sleep(2)
+                        print("\nMan: 'The normal response to that question would be either yes or no!'")
+                        time.sleep(2)
+                        print("\nMan: 'I don't even know why I'm even bothering to help you a stranger..'")
+                        time.sleep(1)
+                        print("\nThe man walks off in disappointment.")
+                        death_in_street()
 
-                    truth_loop = True
                     while truth_loop:
-                        print(
-                            "You and the strange man slip through the alley and into the storage door behind the bakery.")
-                        print("There's two choices you can make.")
-                        print("A: Sneak past the cashier into the storage room to search for clues.")
+                        print("\nYou and the strange man slip through the alley and into the storage door behind the bakery.\n")
+                        print("There's two choices you can make.\n")
+                        print("A: Sneak past the cashier into the storage room to search for clues.\n")
                         print("B: Walk into the front room and try talking to the bakery cashier.")
-
                         choice = input("\nDo you choose A or B? ").strip().lower()
 
                         if choice == "a":
-                            print(
-                                "\nYou walk quietly into the dark storage room while the strange man keeps watch.")
-                            print(
-                                "You find no food for making any of the pasteries in a bakery.\n")
+                            print("\nYou walk quietly into the dark storage room while the strange man keeps watch.")
+                            time.sleep(2)
+                            print("\nYou find no food for making any of the pastries in a bakery.\n")
                             print("Strange...")
-                            print("All you find is wires, cashier aprons, and robot parts.")
+                            print("\nAll you find is wires, cashier aprons, and robot parts.")
 
                             if not has_video_tape:
                                 print("\nSomething catches your eye from underneath a dirty apron..")
                                 print("You crawl closer and see it's an old VHS tape.")
-                                print("LABEL: 'The Truth'")
+                                print("Labelled: 'The Truth'")
                                 print("You place the video tape in your back pocket so you can show it to the man.")
                                 has_video_tape = True
                             else:
                                 print(
-                                    "\nYou search the shelves again, but you have ALREADY collected 'The Truth of Amaryllis Town' video tape!")
+                                    "\nYou search the shelves again, but you have ALREADY collected 'The Truth' video tape!")
                                 print("There are no other clues left to find here.")
 
                             print("\nStrange Man: 'We got what we came for! Look out! The cashier is coming!'")
-                            print("Do you:")
+                            print("Do you:\n")
                             print("A: Leave immediately with the strange man out the back door.")
                             print("B: Stay and confront the cashier.")
 
                             escape_choice = input("\nType A or B: ").strip().lower()
                             if escape_choice == "a":
                                 print(
-                                    "\nYou and the strange man slip out into the alley just as heavy footsteps echo inside.")
-                                print("The strange man locks the back doors tight behind you.")
+                                    "\nYou and the strange man slip out into the alley just as heavy, metallic footsteps echo inside.\n")
+                                print("The strange man locks the back doors tight behind you.\n")
                                 bakery_locked = True
-                                print("\nStrange Man: 'We can never go back in there. It knows we were snooping.'")
+                                print("\nStrange Man: 'We can never go back in there. It knows we were there.'")
                                 if has_video_tape:
+                                    print("\nYou: 'I found this videotape in there. This could be useful, right?'")
+                                    print("The man ")
                                     print(
                                         "Strange Man: 'Let's take this tape to the safe house and see what Amaryllis Town really is!'")
                                     state = "go straight"
