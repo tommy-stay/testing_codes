@@ -189,13 +189,24 @@ while True:
         path = input("Type (left), (right), or (forward).\n").strip().lower()
 
         if path == "left":
-            if bakery_locked:
+            if bakery_locked and not has_bakery_key:
                 print("\nThe bakery doors are shut.")
                 print("You try to push it open but it doesnt bugde.")
                 print("A handwritten note reads: 'PERMANENTLY CLOSED FOR MAINTENANCE'.")
                 print("You can no longer enter the bakery!\n")
                 state = "In the street"
                 continue
+            elif bakery_locked and has_bakery_key:
+                print("\nThe bakery doors are shut and locked tight.")
+                unlock_choice = input("Use the rusty bronze key to unlock the bakery? (yes or no): ").strip().lower()
+                if unlock_choice == "yes":
+                    print(
+                        "\n*CLICK* You insert the bronze key into the heavy iron lock. The door swings open silently!")
+                    bakery_locked = False
+                    state = "Bakery"
+                else:
+                    print("You decide to leave the door locked for now.\n")
+                    state = "In the street"
             else:
                 state = "Bakery"
         elif path == "right":
@@ -207,36 +218,54 @@ while True:
             state = "In the street"
 
     if state == "Bakery":
-        greetings()
-        user_answer = input(
-            "\nWhat would you like to do? (eat or leave): "
-        ).strip().lower()
+            if has_bakery_key:
+                print(
+                    "\nSince you unlocked the bakery with the bronze key, the store is eerily quiet and completely empty.")
+                print(
+                    "You see a heavy door behind the counter labeled 'MANAGER'S OFFICE' with a keyhole matching your key.")
+                office_choice = input(
+                    "\nDo you want to check the office or look around? (office / look): ").strip().lower()
 
-        if user_answer == "eat":
-            print("You've come to the right place!\n")
-            display_menu()
-            order_food()
-        elif user_answer == "leave":
-            time.sleep(3)
-            print("That's not a choice for you...\n")
-            time.sleep(2)
-            print("You have to stay..\n")
-            time.sleep(2)
-            print("There's... something out there...😐\n")
-            time.sleep(3)
-            user_answer = input("\nWhat would you like to do? (eat): ").strip().lower()
+                if office_choice == "office":
+                    print("\nYou turn the key in the office door and step inside.")
+                    time.sleep(2)
+                    print(
+                        "Inside, you find the master override controls and blueprints detailing Amaryllis Town's simulation network!")
+                    time.sleep(2)
+                    print("You flip the master power breaker, shutting down every robot in town permanently!")
+                    time.sleep(2)
+                    print("\nCONGRATULATIONS! YOU UNLOCKED THE SECRET ENDING AND FREED THE TOWN! YOU WIN!")
+                    exit()
+            greetings()
+            user_answer = input(
+                "\nWhat would you like to do? (eat or leave): "
+            ).strip().lower()
 
             if user_answer == "eat":
-                time.sleep(2)
-                print("\nThat's better...\n")
-                time.sleep(1.5)
-                print("Next time. Don't make this so difficult..\n")
-                time.sleep(2)
+                print("You've come to the right place!\n")
                 display_menu()
                 order_food()
-            else:
-                print("Sorry, you are not allowed to do that!😊\n")
-                continue
+            elif user_answer == "leave":
+                time.sleep(3)
+                print("That's not a choice for you...\n")
+                time.sleep(2)
+                print("You have to stay..\n")
+                time.sleep(2)
+                print("There's... something out there...😐\n")
+                time.sleep(3)
+                user_answer = input("\nWhat would you like to do? (eat): ").strip().lower()
+
+                if user_answer == "eat":
+                    time.sleep(2)
+                    print("\nThat's better...\n")
+                    time.sleep(1.5)
+                    print("Next time. Don't make this so difficult..\n")
+                    time.sleep(2)
+                    display_menu()
+                    order_food()
+                else:
+                    print("Sorry, you are not allowed to do that!😊\n")
+                    continue
 
     elif state == "ice cream store":
         story = """
@@ -599,12 +628,22 @@ while True:
         direction_choice = input("Which direction do you take? (left, right, forward): ").strip().lower()
 
         if direction_choice == "right":
-                    turned_right = True
-                    print("You take a winding path that feels like a trap, but eventually loops back around.")
-                    state = "go right"
+            turned_right = True
+            print("\nYou walk down the winding right path. Beside a broken transformer box, static buzzes softly.")
+            time.sleep(2)
+            print("You crouch down and notice a set of stencil numbers spray-painted inside the box cover: '4460'.")
+            time.sleep(2)
+            print("You keep walking until the path unexpectedly loops you back around.\n")
+            state = "go right"
+
         elif direction_choice == "forward":
-                    print("You wander down a straight side path and find something peculiar before looping back.")
-                    state = "go straight"
+            print("\nYou wander straight down a narrow side street that leads to a dead end.")
+            time.sleep(2)
+            print("Carved deep into the wooden surface of an old fence is the sequence '2723'.")
+            time.sleep(2)
+            print("Feeling a strange sense of importance about the number, you memorize it and loop back.\n")
+            state = "go straight"
+
         else:
                     death_in_street()
 
