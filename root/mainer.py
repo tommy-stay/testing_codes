@@ -119,8 +119,23 @@ while True:
             print("The previous change was undone.")
 
     elif choice == "5":
-        print("Goodbye!")
-        break
+        if saved_list == []:
+            print("Goodbye!")
+            time.sleep(3)
+            print("What an... empty list...")
+            time.sleep(4)
+            print("Leaving poor Mr. Forsyth hungry...")
+            time.sleep(4)
+            print("How unkind...")
+            time.sleep(3)
+            break
+        else:
+            print("Wow! You actually filled the list.")
+            time.sleep(2)
+            print("I won't hold you for too long.")
+            print("You should probably go buy those now.")
+            print("Goodbye!")
+            break
 
     else:
         print("That's not one of the options. Please enter 1, 2, 3, 4, or 5.")
