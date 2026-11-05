@@ -61,6 +61,11 @@ while True:
     elif choice == "2":
         if shopping_list == []:
             print("The list is empty.")
+            time.sleep(3)
+            print("You should probably go add something..")
+            time.sleep(3)
+            print("So that you can... you know... remove it.")
+
         else:
             saved_list = shopping_list.copy()
 
@@ -81,6 +86,11 @@ while True:
     elif choice == "3":
         if shopping_list == []:
             print("The list is empty.")
+            time.sleep(2)
+            print("You should probably go add something..")
+            time.sleep(4)
+            print("Probably..")
+            time.sleep(3)
         else:
             print("Current shopping list:")
             index = 0
@@ -91,6 +101,18 @@ while True:
     elif choice == "4":
         if saved_list == []:
             print("There is no previous change to undo.")
+            time.sleep(2.75)
+            print("You should probably go add something..")
+            time.sleep(2.75)
+            print("So you can... undo it.")
+            time.sleep(2.75)
+            print("Actually... Better suggestion.. Why are you choosing this"
+                  " when you know there's nothing...")
+            time.sleep(2)
+            print("Now I look upon your choosing skills with disdain. Tsk tsk..")
+            time.sleep(4)
+            print("You can go now.")
+            time.sleep(3)
         else:
             shopping_list = saved_list.copy()
             saved_list = []
