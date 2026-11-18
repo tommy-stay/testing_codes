@@ -37,8 +37,7 @@ time.sleep(10)
 story2 = """
 (You'll have 5 seconds to read this one.)
 
-The students just finished working on a List Making Assignment,
-    and your job is to grade them!
+The students just finished working on a List Making Assignment, and your job is to grade them!
     Mr. Forsyth left you a dictionary with each student's current average.
 
     He also left you a list of tasks to complete.
@@ -159,13 +158,34 @@ while True:
     elif choice == "9":
         if len(completed_tasks) == len(tasks):
             print()
-            print("PUT YOUR ALL-TASKS-COMPLETE MESSAGE HERE.")
+            print("Wow! You did it! I'm so proud!")
+            time.sleep(2)
+            print("Or rather Mr. Forsyth is proud of you... Same thing.\n")
+            time.sleep(2)
+            print("Your day of work is now over! You can go home. Bye bye!\n")
         elif len(completed_tasks) > 0:
             print()
-            print("PUT YOUR SOME-TASKS-COMPLETE MESSAGE HERE.")
+            time.sleep(3)
+            print("\nWell...")
+            time.sleep(2)
+            print("\nYou DID do something.. So I can't really get mad at you..")
+            time.sleep(2)
+            print("\nGood job for trying... I guess..")
+            time.sleep(1)
+            print("\nBye...?")
         else:
             print()
-            print("PUT YOUR NO-TASKS-COMPLETE MESSAGE HERE.")
+            print("...")
+            time.sleep(2)
+            print("\nNow, you're just downright lazy.\n")
+            time.sleep(2)
+            print("Why would you go to the interview for a teacher")
+            print("if you aren't going to do what a teacher would do?\n")
+            time.sleep(2)
+            print("Poor Mr. Forsyth is going to have to come in while sick ")
+            print("to do the work you weren't able to do!\n")
+            time.sleep(2)
+            print("So rude... Just so rude...")
 
         break
 
